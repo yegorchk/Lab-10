@@ -28,5 +28,5 @@
 
 **Полезные ссылки**
 
-Голосовая модель VOSK для русского языка (компактная): https://disk.yandex.ru/d/BB6pZZSfqLsW4Q
+Голосовая модель VOSK для русского языка (компактная): https://disk.yandex.ru/d/BB6pZZSfqLsW4Q  
 О создании голосовых ассистентов: https://temofeev.ru/info/articles/sozdanie-golosovogo-assistenta-na-python-chast-1/
