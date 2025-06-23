@@ -61,7 +61,7 @@ def handle_command(text, rates):
                 f.write(f'{k}: {v}\n')
         speak("Курсы сохранены в файл.")
     elif "закрыть" in text:
-        speak("Пока! Хорошего дня.")
+        speak("До свидания! Хорошего дня.")
         return False
     return True
 
