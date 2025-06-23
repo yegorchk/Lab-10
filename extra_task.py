@@ -3,7 +3,7 @@ import pyttsx3, pyaudio, vosk
 
 class Speech:
     def __init__(self):
-        self.tts = pyttsx3.init('sapi5')
+        self.tts = pyttsx3.init('nsss')
     def set_voice(self, speaker):
         voices = self.tts.getProperty('voices')
         return voices[speaker].id
