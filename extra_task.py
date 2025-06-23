@@ -4,11 +4,21 @@ import pyttsx3, pyaudio, vosk
 class Speech:
     def __init__(self):
         self.tts = pyttsx3.init('nsss')
-    def set_voice(self, speaker):
+
+    def set_voice(self, lang_code='en', preferred_name='Samantha'):
         voices = self.tts.getProperty('voices')
-        return voices[speaker].id
-    def text2voice(self, speaker=0, text='Ready'):
-        self.tts.setProperty('voice', self.set_voice(speaker))
+        for voice in voices:
+            if preferred_name.lower() in voice.name.lower():
+                return voice.id
+        for voice in voices:
+            if lang_code in str(voice.languages[0]).lower():
+                return voice.id
+        return voices[0].id  # fallback
+
+    def text2voice(self, lang_code='en', text='Ready', preferred_name='Samantha'):
+        self.tts.setProperty('voice', self.set_voice(lang_code, preferred_name))
+        self.tts.setProperty('rate', 170)  # скорость речи
+        self.tts.setProperty('volume', 0.9)  # громкость
         self.tts.say(text)
         self.tts.runAndWait()
 
@@ -26,9 +36,9 @@ class Recognize:
     def listen(self):
         while True:
             data = self.stream.read(4000, exception_on_overflow=False)
-            if self.record.AcceptWaveform(data) and len(data) > 0:
+            if self.record.AcceptWaveform(data):
                 answer = json.loads(self.record.Result())
-                if answer['text']:
+                if answer.get('text'):
                     yield answer['text']
 
 def get_word_info(word):
@@ -40,7 +50,7 @@ def get_word_info(word):
 
 def speak(text):
     speech = Speech()
-    speech.text2voice(speaker=1, text=text)
+    speech.text2voice(lang_code='en', text=text, preferred_name='Samantha')
 
 def handle_command(text, context):
     if text.startswith("find "):
@@ -72,8 +82,6 @@ def handle_command(text, context):
     elif text in ("close", "exit", "quit"):
         speak("Goodbye!")
         return False
-    else:
-        speak("Unknown command.")
     return True
 
 if __name__ == "__main__":
